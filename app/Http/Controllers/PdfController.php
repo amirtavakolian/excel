@@ -27,6 +27,7 @@ class PdfController extends Controller
         }
 
         $excelFile = UploadService::upload($request->userfile);
+        dd(5);
         $pdfFileName = PDFService::createPDF($request, $excelFile);
 
         return redirect()->back()->with('filename', $pdfFileName);
