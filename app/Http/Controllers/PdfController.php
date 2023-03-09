@@ -16,6 +16,8 @@ class PdfController extends Controller
 {
     public function upload(Request $request)
     {
+        dd(5);
+
         $validator = Validator::make($request->all(), [
             'userfile' => 'required|file|mimes:xlsx,xls,xlsb,xlsm.xlm,xla,xlc,xlw,xlt',
             'pagesize' => 'required|between:1,66'
@@ -27,7 +29,6 @@ class PdfController extends Controller
         }
 
         $excelFile = UploadService::upload($request->userfile);
-        dd(5);
         $pdfFileName = PDFService::createPDF($request, $excelFile);
 
         return redirect()->back()->with('filename', $pdfFileName);
