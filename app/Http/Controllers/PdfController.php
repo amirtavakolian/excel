@@ -16,7 +16,6 @@ class PdfController extends Controller
 {
     public function upload(Request $request)
     {
-        dd(5);
 
         $validator = Validator::make($request->all(), [
             'userfile' => 'required|file|mimes:xlsx,xls,xlsb,xlsm.xlm,xla,xlc,xlw,xlt',
