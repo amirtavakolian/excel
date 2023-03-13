@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PDFService
@@ -16,9 +17,14 @@ class PDFService
         $writer = IOFactory::createWriter($spreadsheet, 'Mpdf');
         $writer->setPaperSize($request->pagesize);
 
-        $pdfFileName = Str::random(15) . Carbon::now()->timestamp . ".pdf";
-        $writer->save(public_path('/files/' . $pdfFileName));
+        $pdfFileName = explode('.', $request->file('userfile')->getClientOriginalName())[0];
 
-        return $pdfFileName;
+        if(file_exists(public_path('/files/').$pdfFileName.".pdf")) {
+            $pdfFileName = Carbon::now()->timestamp . "_" . $pdfFileName;
+        }
+
+        $writer->save(public_path('/files/' . $pdfFileName . ".pdf"));
+
+        return $pdfFileName . ".pdf";
     }
 }
